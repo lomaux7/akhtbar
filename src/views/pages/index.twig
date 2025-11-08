@@ -1,14 +1,324 @@
-{#
-| Variable         | Type       | Description                                                         |
-|------------------|------------|---------------------------------------------------------------------|
-| page             | object     |                                                                     |
-| page.title       | string     | *could be html                                                      |
-| page.slug        | string     | ex: "cat.show"                                                      |
-#}
 {% extends "layouts.master" %}
+
 {% block content %}
-    {% component home %}
+    {% set hero_highlights = [
+        {
+            label: 'Same-day delivery in Amman',
+            icon: 'sicon-truck-fast'
+        },
+        {
+            label: '2-year warranty on flagship devices',
+            icon: 'sicon-shield-check'
+        },
+        {
+            label: 'Split your payments with Tamara & Tabby',
+            icon: 'sicon-card-pos'
+        }
+    ] %}
+
+    {% set category_cards = [
+        {
+            title: 'Smartphones',
+            description: 'Flagship and mid-range phones curated for performance.',
+            image: cdn('images/home/category-smartphone.svg')
+        },
+        {
+            title: 'Laptops & Tablets',
+            description: 'Ultra-light designs, pro rigs, and everything in between.',
+            image: cdn('images/home/category-laptop.svg')
+        },
+        {
+            title: 'Audio Essentials',
+            description: 'Immersive headphones, earbuds, and smart speakers.',
+            image: cdn('images/home/category-audio.svg')
+        },
+        {
+            title: 'Gaming Gear',
+            description: 'Powerful consoles and accessories for every level.',
+            image: cdn('images/home/category-gaming.svg')
+        }
+    ] %}
+
+    {% set hero_products = [
+        {
+            name: 'Nebula One Pro',
+            price: 'From 389 JOD',
+            badge: '-24% this week',
+            image: cdn('images/home/product-phone.svg')
+        },
+        {
+            name: 'Lumos Studio 15"',
+            price: 'From 799 JOD',
+            badge: 'Free productivity suite',
+            image: cdn('images/home/product-laptop.svg')
+        }
+    ] %}
+
+    {% set trending_products = [
+        {
+            name: 'Pulse ANC Headphones',
+            price: '159 JOD',
+            description: 'Studio-grade sound with adaptive noise control.',
+            image: cdn('images/home/product-headphones.svg')
+        },
+        {
+            name: 'Orbit 4K Action Cam',
+            price: '229 JOD',
+            description: 'Stabilised footage with cinematic presets.',
+            image: cdn('images/home/product-camera.svg')
+        },
+        {
+            name: 'Atlas Series Smartwatch',
+            price: '179 JOD',
+            description: 'Track wellness metrics with multi-day battery.',
+            image: cdn('images/home/product-watch.svg')
+        }
+    ] %}
+
+    {% set spotlight_grid = [
+        {
+            name: 'Nova Stream Console',
+            price: '349 JOD',
+            tag: 'Gamers\' choice',
+            image: cdn('images/home/product-console.svg')
+        },
+        {
+            name: 'Nebula One Pro',
+            price: '389 JOD',
+            tag: 'Back in stock',
+            image: cdn('images/home/product-phone.svg')
+        },
+        {
+            name: 'Lumos Studio 15"',
+            price: '799 JOD',
+            tag: 'Creators\' pick',
+            image: cdn('images/home/product-laptop.svg')
+        },
+        {
+            name: 'Pulse ANC Headphones',
+            price: '159 JOD',
+            tag: 'Staff favourite',
+            image: cdn('images/home/product-headphones.svg')
+        }
+    ] %}
+
+    {% set brand_logos = [
+        cdn('images/home/brand-aurora.svg'),
+        cdn('images/home/brand-nova.svg'),
+        cdn('images/home/brand-zenith.svg'),
+        cdn('images/home/brand-polaris.svg'),
+        cdn('images/home/brand-orion.svg')
+    ] %}
+
+    {% set journal_cards = [
+        {
+            title: 'Your Ramadan tech checklist',
+            summary: 'Streamline family nights with connected lighting, multi-room audio, and productivity apps.',
+            eyebrow: 'Buying guide'
+        },
+        {
+            title: 'Minimal desk, maximum focus',
+            summary: 'Discover the accessories and smart gadgets we rely on to keep creative momentum.',
+            eyebrow: 'Editorial'
+        }
+    ] %}
+
+    {% set testimonials = [
+        {
+            quote: 'Delivery arrived on the same day and the setup session was incredibly helpful. ICN made upgrading effortless.',
+            author: 'Ranya F.',
+            role: 'Amman'
+        },
+        {
+            quote: 'Loved the curated bundles and the instalment options. Finally a tech destination built around Jordanian shoppers.',
+            author: 'Omar H.',
+            role: 'Zarqa'
+        }
+    ] %}
+
+    <main class="icn-home">
+        <section class="icn-hero">
+            <div class="icn-hero__content container">
+                <div class="icn-hero__copy">
+                    <span class="icn-hero__eyebrow">Jordan exclusive launch</span>
+                    <h1 class="icn-hero__title">Experience the next wave of connected living</h1>
+                    <p class="icn-hero__subtitle">Explore a curated line-up of premium electronics, delivered same-day with concierge-level support across the Kingdom.</p>
+                    <div class="icn-hero__actions">
+                        <a href="{{ link('/') }}" class="btn btn--primary">Shop new arrivals</a>
+                        <a href="{{ link('/') }}" class="btn btn--ghost">Book a consultation</a>
+                    </div>
+                    <dl class="icn-hero__highlights">
+                        {% for highlight in hero_highlights %}
+                            <div class="icn-hero__highlight">
+                                <dt><i class="{{ highlight.icon }}" aria-hidden="true"></i></dt>
+                                <dd>{{ highlight.label }}</dd>
+                            </div>
+                        {% endfor %}
+                    </dl>
+                </div>
+                <div class="icn-hero__visual">
+                    {% for product in hero_products %}
+                        <div class="icn-hero-card">
+                            <span class="icn-hero-card__badge">{{ product.badge }}</span>
+                            <img src="{{ product.image }}" alt="{{ product.name }} illustration">
+                            <div class="icn-hero-card__meta">
+                                <h3>{{ product.name }}</h3>
+                                <p>{{ product.price }}</p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+
+        <section class="icn-service-strip container">
+            {% for card in category_cards %}
+                <article class="icn-service-card">
+                    <img src="{{ card.image }}" alt="{{ card.title }} illustration">
+                    <div>
+                        <h3>{{ card.title }}</h3>
+                        <p>{{ card.description }}</p>
+                        <a href="{{ link('/') }}" class="icn-link">Explore {{ card.title|lower }}</a>
+                    </div>
+                </article>
+            {% endfor %}
+        </section>
+
+        <section class="icn-section icn-section--dark">
+            <div class="container">
+                <div class="icn-section__header">
+                    <span class="icn-section__eyebrow">Trending now</span>
+                    <h2>Editors' tech radar</h2>
+                    <a href="{{ link('/') }}" class="icn-link">Shop the curation</a>
+                </div>
+                <div class="icn-carousel">
+                    {% for product in trending_products %}
+                        <article class="icn-carousel-card">
+                            <div class="icn-carousel-card__media">
+                                <img src="{{ product.image }}" alt="{{ product.name }} illustration">
+                            </div>
+                            <div class="icn-carousel-card__body">
+                                <h3>{{ product.name }}</h3>
+                                <p>{{ product.description }}</p>
+                                <span class="icn-price">{{ product.price }}</span>
+                                <button class="btn btn--pill" type="button">Add to cart</button>
+                            </div>
+                        </article>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+
+        <section class="icn-section">
+            <div class="container">
+                <div class="icn-section__header">
+                    <span class="icn-section__eyebrow">Spotlight</span>
+                    <h2>Future-ready essentials</h2>
+                    <div class="icn-section__cta">
+                        <a href="{{ link('/') }}" class="icn-link">Browse catalogue</a>
+                    </div>
+                </div>
+                <div class="icn-grid">
+                    {% for product in spotlight_grid %}
+                        <article class="icn-grid-card">
+                            <div class="icn-grid-card__tag">{{ product.tag }}</div>
+                            <img src="{{ product.image }}" alt="{{ product.name }} illustration">
+                            <div class="icn-grid-card__body">
+                                <h3>{{ product.name }}</h3>
+                                <p>{{ product.price }}</p>
+                                <a href="{{ link('/') }}" class="icn-link">View details</a>
+                            </div>
+                        </article>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+
+        <section class="icn-section icn-section--brands">
+            <div class="container">
+                <div class="icn-section__header">
+                    <span class="icn-section__eyebrow">Brand partners</span>
+                    <h2>Shop iconic innovators</h2>
+                </div>
+                <div class="icn-brands">
+                    {% for logo in brand_logos %}
+                        <div class="icn-brand">
+                            <img src="{{ logo }}" alt="Partner brand logo">
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+
+        <section class="icn-section icn-section--split">
+            <div class="container">
+                <div class="icn-section__header">
+                    <span class="icn-section__eyebrow">The ICN journal</span>
+                    <h2>Insights from our experience team</h2>
+                    <a href="{{ link('/') }}" class="icn-link">View all stories</a>
+                </div>
+                <div class="icn-journal">
+                    {% for article in journal_cards %}
+                        <article class="icn-journal-card">
+                            <span class="icn-journal-card__eyebrow">{{ article.eyebrow }}</span>
+                            <h3>{{ article.title }}</h3>
+                            <p>{{ article.summary }}</p>
+                            <a href="{{ link('/') }}" class="icn-link">Read story</a>
+                        </article>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+
+        <section class="icn-section icn-section--testimonials">
+            <div class="container">
+                <div class="icn-section__header">
+                    <span class="icn-section__eyebrow">Voices of the community</span>
+                    <h2>Trusted by modern households across Jordan</h2>
+                </div>
+                <div class="icn-testimonials">
+                    {% for item in testimonials %}
+                        <blockquote class="icn-testimonial">
+                            <p>“{{ item.quote }}”</p>
+                            <footer>
+                                <span class="icn-testimonial__author">{{ item.author }}</span>
+                                <span class="icn-testimonial__role">{{ item.role }}</span>
+                            </footer>
+                        </blockquote>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+
+        <section class="icn-section icn-section--cta">
+            <div class="container">
+                <div class="icn-cta">
+                    <div class="icn-cta__copy">
+                        <span class="icn-section__eyebrow">Concierge services</span>
+                        <h2>Need a tailored deployment?</h2>
+                        <p>Our specialists design smart home, gaming, and productivity setups from planning to installation.</p>
+                    </div>
+                    <form class="icn-cta__form">
+                        <label>
+                            <span>Your name</span>
+                            <input type="text" placeholder="Full name">
+                        </label>
+                        <label>
+                            <span>Email address</span>
+                            <input type="email" placeholder="you@example.com">
+                        </label>
+                        <label>
+                            <span>Phone number</span>
+                            <input type="tel" placeholder="07XX XXX XXX">
+                        </label>
+                        <button type="submit" class="btn btn--primary">Request a callback</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
 {% endblock %}
+
 {% block scripts %}
     <script defer src="{{ 'home.js' | asset }}"></script>
 {% endblock %}
